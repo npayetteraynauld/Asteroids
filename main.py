@@ -8,11 +8,16 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
 
+    updatable_group = pygame.sprite.Group()
+    drawable_group = pygame.sprite.Group()
+    Player.containers = (updatable_group, drawable_group)
+
     player = Player((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2))
 
     dt = 0
     FPS = 180
 
+    
 
     while True:
         for event in pygame.event.get():
@@ -20,9 +25,10 @@ def main():
                 return
 
         screen.fill((0, 0, 0))
-        player.draw(screen)
+        for drawable in drawable_group:
+            drawable.draw(screen)
         pygame.display.flip()
-        player.update(dt)
+        updatable_group.update(dt)
         dt = clock.tick(FPS) / 1000
 
 if __name__ == "__main__":
